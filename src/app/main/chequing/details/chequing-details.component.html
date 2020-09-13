@@ -1,0 +1,81 @@
+<div id="list" class="page-layout simple fullwidth" fxLayout="column">
+    <form class="mat-card mat-elevation-z4 p-24 mr-24" fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto"
+        name="form" [formGroup]="form">
+        <div class="h2 mb-24">Chequing Account</div>
+        <div fxLayout="column" fxLayoutGap="20px">
+            <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="15px">
+
+                <!-- ACCOUNT NUMBER FORM -->
+                <mat-form-field appearance="outline" fxFlex="auto" class="example-full-width">
+                    <mat-label>Account Number</mat-label>
+                    <input formControlName="account_number" matInput placeholder="Ex. 74561">
+                    <mat-error *ngIf="form.get('account_number').errors?.isNumber">
+                        Invalid number.
+                    </mat-error>
+                    <mat-error *ngIf="form.get('account_number').errors?.required">
+                        Invalid number.
+                    </mat-error>
+                </mat-form-field>
+                <!-- END ACCOUNT NUMBER FORM -->
+
+                <!-- BANK FORM -->
+                <mat-form-field appearance="outline" fxFlex="60%">
+                    <mat-label>Select a Bank</mat-label>
+                    <mat-select formControlName="bank_id" disableRipple>
+                        <mat-option *ngFor="let bank of banks" [value]="bank.id">{{bank.bank_initials}} --
+                            {{bank.bank_name}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form.get('bank_id').errors?.required">
+                        Bank is required.
+                    </mat-error>
+                </mat-form-field>
+                <!-- END BANK FORM -->
+
+            </div>
+
+            <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="15px">
+
+                <!-- HOLDER FORM -->
+                <mat-form-field appearance="outline" fxFlex="auto">
+                    <mat-label>Select a Holder</mat-label>
+                    <mat-select formControlName="holder_id" disableRipple>
+                        <mat-option *ngFor="let holder of holders" [value]="holder.id">{{holder.holder_name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form.get('holder_id').errors?.required">
+                        Holder is required.
+                    </mat-error>
+                </mat-form-field>
+                <!-- END HOLDER FORM -->
+
+            </div>
+
+
+            <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
+                <!-- ACTIVE STATUS FORM -->
+                <mat-slide-toggle formControlName="status">
+                    Active?
+                </mat-slide-toggle>
+
+            </div>
+
+
+            <!-- BUTTONS FORM -->
+            <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="15px">
+                <button mat-raised-button type="button" color="warn" (click)="back()">
+                    <mat-icon class="mr-1">arrow_back</mat-icon>
+                    Back
+                </button>
+                <div fxLayout="row">
+                    <button [disabled]="!form.valid" icon="'add'" (click)="submit()" mat-raised-button
+                        color="primary">Submit</button>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </form>
+
+</div>

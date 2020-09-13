@@ -1,0 +1,138 @@
+<div id="list" class="mat-card mat-elevation page-layout simple fullwidth"
+    fxLayout="column">
+
+
+
+    <form   fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto"
+        name="form" [formGroup]="form">
+        <div class="h2 mb-24">Invoices </div> 
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <mat-progress-spinner   *ngIf="this.companies.length === 0"color="primary" mode="indeterminate" [diameter]="25">
+            </mat-progress-spinner>
+        </div>
+        <div *ngIf="isLoading==false && this.companies.length > 0 " fxLayout="column" fxLayoutGap="20px">
+
+            <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="15px">
+                
+
+                <!-- INVOICE DATE FORM -->
+                <mat-form-field appearance="outline" fxFlex="auto">
+                    <mat-label>Invoice Date</mat-label>
+                    <input formControlName="invoice_date" matInput [matDatepicker]="picker" placeholder="mm/dd/YYYY">
+                    <mat-error *ngIf="form.get('invoice_date').errors?.required">
+                        Date is Required.
+                    </mat-error>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+
+                </mat-form-field>
+
+
+                <!-- END INVOICE DATE FORM -->
+
+                <!-- INVOICE VALUE FORM -->
+                <mat-form-field appearance="outline" fxFlex="auto" class="example-full-width">
+                    <mat-label>Invoice Value</mat-label>
+                    <input formControlName="invoicePrice" placeholder="Ex. 30.00" matInput>
+                    <mat-error *ngIf="form.get('invoicePrice').errors?.isNumber">
+                        Invoice Value is Invalid.
+                    </mat-error>
+                    <mat-error *ngIf="form.get('invoicePrice').errors?.required">
+                        Invoice Value is required.
+                    </mat-error>
+                </mat-form-field>
+                <!-- END INVOICE VALUE FORM -->
+
+                <!-- IN OUT FORM -->
+                <mat-form-field appearance="outline" fxFlex="auto">
+                    <mat-label>Select Income or Outcome</mat-label>
+                    <mat-select formControlName="debitCreditId" disableRipple>
+                        <mat-option *ngFor="let inOut of inOuts" [value]="inOut.id">{{inOut.debit_credit}}</mat-option>
+                    </mat-select>
+                    <mat-error>
+                        Income/Outcome is required.
+                    </mat-error>
+                </mat-form-field>
+                <!-- END OUT FORM -->
+
+
+
+            </div>
+
+            <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="15px">
+
+                <!-- CARD FORM -->
+                <mat-form-field appearance="outline" fxFlex="60%">
+                    <mat-label>Select Card</mat-label>
+                    <mat-select formControlName="cardId" disableRipple>
+                        <mat-option *ngFor="let card of cards" [value]="card.id">
+                            {{card.chequing_account.bank.bank_initials}} --
+                            {{card.card_number}} --
+                            {{card.card_debitCredit.card_debit_credit}} --
+                            {{card.chequing_account.holder_account.holder_first_name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>
+                        Card is required.
+                    </mat-error>
+                </mat-form-field>
+                <!-- END CARD FORM -->
+
+                <!-- COMPANY FORM -->
+                <!-- <mat-form-field appearance="outline" fxFlex="60%">
+                    <mat-label>Select Company</mat-label>
+                    <mat-select formControlName="companyId" disableRipple>
+                        <mat-option *ngFor="let company of companies"  [value]="company.id">
+                            {{company.company}} -- {{company.type.type}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>
+                        Company is required.
+                    </mat-error>
+                </mat-form-field> -->
+
+                <!-- END COMPANY FORM -->
+
+                <!-- FOR AUTO COMPLETE -----------------------------------------------------------------------------------------  -->
+                <mat-form-field class="example-full-width">
+                    <mat-label>Assignee</mat-label>
+                    <input type="text" matInput [formControl]="this.form.controls['companyId']" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                        {{option.company}} -- {{option.type.type}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                  <!-- END AUTO COMPLETE ----------------------------------------------------------------------------------------- -->
+            </div>
+
+            <!-- BUTTONS FORM -->
+            <div fxLayout="row"  fxLayoutAlign="center center" fxLayoutGap="15px">
+                <button *ngIf="!data.id" mat-raised-button type="button" color="warn" (click)="back()">
+                    <mat-icon class="mr-1">arrow_back</mat-icon>
+                    Back
+                </button>
+                <button *ngIf="data.id" mat-raised-button type="button" color="warn" (click)="closeDialog()">
+                    <mat-icon class="mr-1">close</mat-icon>
+                    Close
+                </button>
+                <div *ngIf="data.id" fxLayout="row">
+                    <button [disabled]="!form.valid" icon="'add'" (click)="saveChanges()" mat-raised-button
+                        color="primary">Change</button>
+                </div>
+                <div *ngIf="!data.id" fxLayout="row">
+                    <button [disabled]="!form.valid" icon="'add'" (click)="submit()" mat-raised-button
+                        color="primary">Create</button>
+                </div>
+
+               
+            </div>
+
+
+
+
+        </div>
+    </form>
+   
+
+</div>

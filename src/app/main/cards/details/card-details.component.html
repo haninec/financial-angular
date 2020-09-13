@@ -1,0 +1,105 @@
+<div id="list" class="page-layout simple fullwidth" fxLayout="column">
+    <form class="mat-card mat-elevation-z4 p-24 mr-24" fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto"
+        name="form" [formGroup]="form">
+        <div class="h2 mb-24">Cards</div>
+        <div fxLayout="column" fxLayoutGap="20px">
+            <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="15px">
+                <!-- CARD NUMBER FORM -->
+                <mat-form-field appearance="outline" fxFlex="auto" class="example-full-width">
+                    <mat-label>Card Number</mat-label>
+                    <input formControlName="card_number" matInput placeholder="Ex. 7896541245">
+                    <mat-error *ngIf="form.get('card_number').errors?.required">
+                        Card Number is required.
+                    </mat-error>
+                    <mat-error *ngIf="form.get('card_number').errors?.isNumber">
+                        Card Number is invalid.
+                    </mat-error>
+                </mat-form-field>
+                <!-- CARD LIMIT FORM -->
+                <mat-form-field appearance="outline" fxFlex="auto" class="example-full-width">
+                    <mat-label>Card Limit</mat-label>
+                    <input formControlName="card_limit" matInput placeholder="Ex. 500.00">
+                    <mat-hint align="end">
+                        {{form.get('card_limit').value?.length || 0}}/12
+                    </mat-hint>
+                    <mat-error *ngIf="form.get('card_limit').errors?.required">
+                        Card limit is required. If this is a Debit Card, fill with 0.
+                    </mat-error>
+                    <mat-error *ngIf="form.get('card_limit').errors?.maxlength">
+                        Max length is 12 for this field.
+                    </mat-error>
+                    <mat-error *ngIf="form.get('card_limit').errors?.isNumber">
+                        Card limit is invalid.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="15px">
+                <!-- VALUE START FORM -->
+                <mat-form-field appearance="outline" fxFlex="auto" class="example-full-width">
+                    <mat-label>Initial Value</mat-label>
+                    <input formControlName="card_initial_value" matInput placeholder="Ex. 300.00">
+                    <mat-hint align="end">
+                        {{form.get('card_initial_value').value?.length || 0}}/12
+                    </mat-hint>
+                    <mat-error *ngIf="form.get('card_initial_value').errors?.required">
+                        Initial value is required.
+                    </mat-error>
+                    <mat-error *ngIf="form.get('card_initial_value').errors?.maxlength">
+                        Max length is 12 for this field.
+                    </mat-error>
+                    <mat-error *ngIf="form.get('card_initial_value').errors?.isNumber">
+                        Card limit is invalid.
+                    </mat-error>
+                </mat-form-field>
+                <!-- CHEQUING FORM -->
+                <mat-form-field appearance="outline" fxFlex="auto">
+                    <mat-label>Select a Chequing Account</mat-label>
+                    <mat-select formControlName="chequing_id" disableRipple>
+                        <mat-option *ngFor="let chequing of chequings" [value]="chequing.id">
+                            {{chequing.bank.bank_initials}} --
+                            {{chequing.account_number}} -- {{chequing.holder.holder_name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form.get('chequing_id').errors?.required">
+                        Chequing Account is required.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="15px">
+                <!-- CARD TYPE FORM -->
+                <mat-form-field appearance="outline" fxFlex="60%">
+                    <mat-label>Select a Card Type</mat-label>
+                    <mat-select formControlName="is_credit_card" disableRipple>
+                        <mat-option *ngFor="let type of types" [value]="type.type">{{type.value}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form.get('is_credit_card').errors?.required">
+                        Card Type is required.
+                    </mat-error>
+                </mat-form-field>
+                <!-- BALANCE FORM -->
+                <div *ngIf="checkEdit" appearance="outline" fxFlex="auto" class="example-full-width">
+                    <button class="btn-balance" mat-raised-button color="accent">
+                        <mat-label>BALANCE - CA$ {{form.get('balance').value}}</mat-label>
+                    </button>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
+                <!-- ACTIVE STATUS FORM -->
+                <mat-slide-toggle formControlName="status">
+                    Active?
+                </mat-slide-toggle>
+            </div>
+            <!-- BUTTONS FORM -->
+            <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="15px">
+                <button mat-raised-button type="button" color="warn" (click)="back()">
+                    <mat-icon class="mr-1">arrow_back</mat-icon>
+                    Back
+                </button>
+                <div fxLayout="row">
+                    <button [disabled]="!form.valid" icon="'add'" (click)="submit()" mat-raised-button
+                        color="primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

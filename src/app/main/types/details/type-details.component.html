@@ -1,0 +1,49 @@
+<div id="list" class="page-layout simple fullwidth" fxLayout="column">
+    <form class="mat-card mat-elevation-z4 p-24 mr-24" fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto"
+        name="form" [formGroup]="form">
+        <div class="h2 mb-24">Types</div>
+        <div fxLayout="column" fxLayoutGap="20px">
+            <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="15px">
+
+                <!-- TYPE FORM -->
+                <mat-form-field appearance="outline" fxFlex="auto" class="example-full-width">
+                    <mat-label>Type</mat-label>
+                    <input formControlName="type" matInput placeholder="Ex. Grocery, Rent, etc..">
+                    <mat-error *ngIf="form.get('type').errors?.required">
+                        Type is required.
+                    </mat-error>
+                    <mat-error *ngIf="form.get('type').errors?.maxlength">
+                        Max length is 30.
+                    </mat-error>
+                </mat-form-field>
+               
+            </div>
+            
+            <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
+                <!-- ACTIVE STATUS FORM -->
+                <mat-slide-toggle formControlName="status">
+                    Active?
+                </mat-slide-toggle>
+
+            </div>
+
+            <!-- BUTTONS FORM -->
+            <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="15px">
+                <button mat-raised-button type="button" color="warn" (click)="back()">
+                    <mat-icon class="mr-1">arrow_back</mat-icon>
+                    Back
+                </button>
+                <div fxLayout="row">
+                    <button [disabled]="!form.valid" icon="'add'" (click)="submit()" mat-raised-button
+                        color="primary">Submit</button>
+                </div>
+            </div>
+            
+
+
+
+
+        </div>
+    </form>
+
+</div>

@@ -1,0 +1,21 @@
+<div id="list" class="mat-card mat-elevation-z4 p-24 mr-24 page-layout simple fullwidth" fxLayoutGap="15px"
+    fxLayout="column">
+
+
+    <div class="h2 mb-24">Companies</div>
+
+    <div class="content p-24">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="end center">
+            <button mat-raised-button class="btn-add mt-16 mt-sm-0" color="accent" (click)="create()">
+                <mat-icon class="mr-8">add</mat-icon>
+                <span>Create</span>
+            </button>
+        </div>
+
+        <app-default-table [columns]="columns" [rows]="rows" [pagination]="filter.pagination" [isLoading]="isLoading"
+            (edit)="edit($event)" (delete)="delete($event)" (changePage)="changePage($event)"
+            (changeSort)="changeSort($event)">
+        </app-default-table>
+
+    </div>
+</div>
