@@ -55,7 +55,7 @@ export class CardListComponent extends BaseListComponent<Card> implements OnInit
     // LOAD CARDS
     public loadCards(): void {
         const filter = new CardFilter({
-            status: true
+            ordering: "id"
         });
         
         this.apiService

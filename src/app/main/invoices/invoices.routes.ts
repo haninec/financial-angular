@@ -18,7 +18,7 @@ export const InvoicesRoutes = [
         component: InvoiceDetailsComponent
     },
     {
-        path: 'details/:id',
+        path: 'details/:uuid',
         component: InvoiceDetailsComponent
     }
 ];

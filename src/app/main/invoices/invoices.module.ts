@@ -11,11 +11,9 @@ import { InvoicesRoutes } from './invoices.routes';
 import { InvoiceService } from 'app/shared/services/invoice.service';
 import { InvoiceListComponent } from './list/invoice-list.component';
 import { InvoiceDetailsComponent } from './details/invoice-details.component';
-import { InOutService } from 'app/shared/services/inOut.service';
 import { CardService } from 'app/shared/services/card.service';
 import { InvoiceSearchComponent } from './search/invoice-search.component';
 import { CompanyService } from 'app/shared/services/company.service';
-import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 
@@ -44,7 +42,6 @@ import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/materia
     ],
     providers: [
         InvoiceService,
-        InOutService,
         CardService,
         CompanyService,
         { provide: MAT_DIALOG_DATA, useValue: {} },

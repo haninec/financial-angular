@@ -5,13 +5,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { BaseDetailsComponent } from 'app/shared/components/base/base-details.component';
 import { Invoice } from 'app/shared/models/invoice.models';
 import { InvoiceService } from 'app/shared/services/invoice.service';
-import { InOutService } from 'app/shared/services/inOut.service';
 import { CardService } from 'app/shared/services/card.service';
 import { BaseResponse } from 'app/shared/models/base-response.model';
 import { CardFilter } from 'app/shared/filters/card.filter';
 import { Card } from 'app/shared/models/card.model';
-import { InOut } from 'app/shared/models/in-out.models';
-import { InOutFilter } from 'app/shared/filters/in-out.filter';
 import { DatePipe } from '@angular/common';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
@@ -25,12 +22,13 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export class InvoiceSearchComponent extends BaseDetailsComponent<Invoice> implements OnInit, OnDestroy {
 
     searchForm: FormGroup
-    public inOuts: InOut[] = []
     public cards: Card[] = []
+    public is_incomes: any[] = [
+        { is_income: true, value: 'Income' },
+        { is_income: false, value: 'Outcome' },
+    ];
 
     // For search
-    public qs: string
-    public cardId: any
     public pipe = new DatePipe('en-US');
     public start_date: string
     public end_date: string
@@ -42,7 +40,6 @@ export class InvoiceSearchComponent extends BaseDetailsComponent<Invoice> implem
         public router: Router,
         public activatedRoute: ActivatedRoute,
         public apiService: InvoiceService,
-        public inOutService: InOutService,
         public cardService: CardService,
         public dialog: MatDialog,
         private _snackBar: MatSnackBar) {
@@ -54,52 +51,27 @@ export class InvoiceSearchComponent extends BaseDetailsComponent<Invoice> implem
     public ngOnInit(): void {
         super.ngOnInit();
         this.loadCards()
-        this.loadInOut();
 
         this.searchForm = this.formBuilder.group({
-
             start_date: '',
             end_date: '',
-            income_outcome: '',
+            is_income: '',
             card: '',
         })
     }
-
-
-
-    // LOAD INCOME OUTCOME
-    public loadInOut(): void {
-        const filter = new InOutFilter({
-            pagination: {
-                sortBy: 'name',
-                sortDirection: 'asc'
-            }
-        });
-
-        this.inOutService
-            .get(filter.toQueryString())
-            .subscribe((response: BaseResponse<InOut[]>) => {
-                this.inOuts = response.results;
-            });
-
-    }
-    // END LOAD INCOME OUTCOME
 
     // LOAD CARDS
     public loadCards(): void {
         const filter = new CardFilter({
             pagination: {
-                sortBy: 'name',
-                sortDirection: 'asc'
-            }
+            },
+            status: true
         });
-
         this.cardService
             .get(filter.toQueryString())
             .subscribe((response: BaseResponse<Card[]>) => {
                 this.cards = response.results;
             });
-
     }
     // END LOAD CARDS
 
@@ -108,7 +80,6 @@ export class InvoiceSearchComponent extends BaseDetailsComponent<Invoice> implem
     };
 
     public search(){
-        
         
         this.todayString = this.today.toString()
         this.todayString = this.pipe.transform(this.todayString, 'yyyy-MM-dd');
@@ -150,8 +121,8 @@ export class InvoiceSearchComponent extends BaseDetailsComponent<Invoice> implem
 
         this.router.navigate(['invoices/list'], { 
             queryParams: {
-                cardId: this.searchForm.value.card,
-                debitCreditId: this.searchForm.value.income_outcome,
+                card_id: this.searchForm.value.card,
+                is_income: this.searchForm.value.is_income,
                 end_date: this.end_date,
                 start_date: this.start_date
             } 

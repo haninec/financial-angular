@@ -38,12 +38,12 @@
             <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="15px">
 
 
-                <!-- IN OUT FORM -->
+                <!-- INCOME OUTCOME FORM -->
                 <mat-form-field appearance="outline" fxFlex="auto">
                     <mat-label>Select Income or Outcome</mat-label>
-                    <mat-select formControlName="income_outcome" disableRipple>
-                        <mat-option *ngFor="let inOut of inOuts" [value]="inOut.id">
-                            {{inOut.debit_credit}}
+                    <mat-select formControlName="is_income" disableRipple>
+                        <mat-option *ngFor="let is_income of is_incomes" [value]="is_income.is_income">
+                            {{is_income.value}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -54,10 +54,18 @@
                     <mat-label>Select Card</mat-label>
                     <mat-select formControlName="card" disableRipple>
                         <mat-option *ngFor="let card of cards" [value]="card.id">
-                            {{card.chequing_account.bank.bank_initials}} --
-                            {{card.card_number}} --
-                            {{card.card_debitCredit.card_debit_credit}} --
-                            {{card.chequing_account.holder_account.holder_first_name}}
+                            <div *ngIf="card.is_credit_card">
+                                {{card.chequing.bank.bank_initials}} --
+                                {{card.card_number}} --
+                                Credit --
+                                {{card.chequing.holder.holder_name}}
+                            </div>
+                            <div *ngIf="!card.is_credit_card">
+                                {{card.chequing.bank.bank_initials}} --
+                                {{card.card_number}} --
+                                Debit --
+                                {{card.chequing.holder.holder_name}}
+                            </div>
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -68,7 +76,7 @@
         <!-- BUTTONS FORM -->
         <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="15px">
             <div fxLayout="row">
-                <button  icon="'add'" (click)="search()" mat-raised-button color="primary">
+                <button icon="'add'" (click)="search()" mat-raised-button color="primary">
                     <mat-icon class="mr-1">search</mat-icon>
                     Search
                 </button>

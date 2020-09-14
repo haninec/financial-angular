@@ -1,4 +1,4 @@
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, QueryParamsHandling } from '@angular/router';
 import { BaseListComponent } from 'app/shared/components/base/base-list.component';
@@ -23,18 +23,17 @@ import { InvoiceDetailsComponent } from '../details/invoice-details.component';
 export class InvoiceListComponent extends BaseListComponent<Invoice> implements OnInit, OnDestroy {
 
     public filter: InvoiceFilter = new InvoiceFilter({ hasPagination: true });
-
     public query: any;
     public qs: string;
     public data: any[] = [];
     public invoices: MatTableDataSource<Invoice> = new MatTableDataSource([]);
     displayedColumns: string[] = [
         'invoice_date',
-        'companies',
-        'invoices_cards',
-        'card_debit_credit',
-        'debitCreditInOut',
-        'invoicePrice',
+        'company',
+        'card',
+        'is_credit_card',
+        'is_income',
+        'invoice_value',
         'actions'
     ];
     @ViewChild(MatSort, { static: true }) sort: MatSort
@@ -48,19 +47,16 @@ export class InvoiceListComponent extends BaseListComponent<Invoice> implements 
         super(router, activatedRoute, apiService, broadcastService);
 
         this.baseUrl = 'invoices';
-
     }
 
     public ngOnInit(): void {
         this.isLoading = true
         this.loadInvoices();
-
-
     }
 
     // LOAD INVOICES
     public loadInvoices(): void {
-
+        debugger
         this.apiService
             .get(this.searchFilter())
             .subscribe((response: BaseResponse<Invoice[]>) => {
@@ -69,19 +65,14 @@ export class InvoiceListComponent extends BaseListComponent<Invoice> implements 
                 this.invoices.sort = this.sort
                 this.invoices.paginator = this.paginator;
                 this.isLoading = false
-
             });
-
-
-
-
     }
 
     public searchFilter() {
         this.qs = ''
         this.query = this.activatedRoute.snapshot.queryParams;
-        this.qs = '&cardId=' + this.query.cardId + this.qs
-        this.qs = '&debitCreditId=' + this.query.debitCreditId + this.qs
+        this.qs = '&card_id=' + this.query.card_id + this.qs
+        this.qs = '&is_income=' + this.query.is_income + this.qs
         this.qs = '&start_date=' + this.query.start_date + this.qs
         this.qs = '&end_date=' + this.query.end_date + this.qs
         return this.qs
@@ -90,9 +81,6 @@ export class InvoiceListComponent extends BaseListComponent<Invoice> implements 
     public back(): void {
         this.router.navigateByUrl(this.baseUrl);
     }
-
-
-
     public deleteInvoice(model: any): void {
         // TODO :: Traduzir as mensagens
         const title = 'Delete?';
@@ -115,10 +103,9 @@ export class InvoiceListComponent extends BaseListComponent<Invoice> implements 
         }).then((result: any) => {
             if (result.value) {
                 this.apiService
-                    .delete(model.id)
+                    .delete(model.uuid)
                     .subscribe((response: any) => {
                         this.loadInvoices()
-
                         Swal.fire({
                             title: confirmationTitle,
                             text: confirmationText
@@ -135,16 +122,10 @@ export class InvoiceListComponent extends BaseListComponent<Invoice> implements 
 
     // FOR EDIT DIALOG
     public openEditDialog(data: Invoice) {
-
-
         this.dialog.open(InvoiceDetailsComponent, {
             width: '10000px',
             data: data
-        } )
+        })
 
     }
-
-
-
-
 }

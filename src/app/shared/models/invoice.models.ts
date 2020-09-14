@@ -3,31 +3,33 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { BaseModel } from './base.model';
 import { isNumberValidator } from '../validators/is-number.validator';
 import { Company } from './company.models';
+import { Card } from './card.model';
 
 export class Invoice extends BaseModel {
 
    
     public invoice_date: Date;
-    public companyId: number;
-    public companies: Company = new Company();
-    public invoicePrice: number;
-    public debitCreditId: number;
-    public cardId: number
-    public userId: number;
+    public company_id: number;
+    public company: Company = new Company();
+    public invoice_value: number;
+    public is_income: boolean;
+    public card_id: number
+    public card: Card = new Card();
+    public username: number;
 
-    
 
     constructor(data?: any) {
         super(data);
         
         if (data) {
             this.invoice_date = data.invoice_date;
-            this.companyId = data.companyId;
-            this.companies = new Company(data.Company);
-            this.invoicePrice = data.invoicePrice;
-            this.debitCreditId = data.debitCreditId;
-            this.cardId = data.cardId;
-            this.userId = data.userId;
+            this.company_id = data.company_id;
+            this.company = new Company(data.company);
+            this.invoice_value = data.invoice_value;
+            this.is_income = data.is_income;
+            this.card_id = data.card_id;
+            this.card = new Card(data.card);
+            this.username = data.username;
         }
     }
 
@@ -39,24 +41,24 @@ export class Invoice extends BaseModel {
             Validators.required
         ]));
 
-        form.addControl('companyId', new FormControl(null, [
+        form.addControl('company_id', new FormControl(null, [
             Validators.required
         ]));
 
-        form.addControl('invoicePrice', new FormControl(null, [
+        form.addControl('invoice_value', new FormControl(null, [
             Validators.required,
             isNumberValidator
         ]));
 
-        form.addControl('debitCreditId', new FormControl(null, [
+        form.addControl('is_income', new FormControl(null, [
             Validators.required
         ]));
 
-        form.addControl('cardId', new FormControl(null, [
+        form.addControl('card_id', new FormControl(null, [
             Validators.required
         ]));
 
-        form.addControl('userId', new FormControl(null, [
+        form.addControl('username', new FormControl(null, [
         ]));
 
         return form;
