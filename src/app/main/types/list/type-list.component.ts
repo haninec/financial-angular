@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+
 import { BaseListComponent } from 'app/shared/components/base/base-list.component';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { TableColumn } from 'app/shared/models/table-column.model';
@@ -27,7 +28,6 @@ export class TypeListComponent extends BaseListComponent<Type> implements OnInit
 
         this.baseUrl = 'types';
         
-
         this.columns.push(new TableColumn({
             translate: 'Type',
             definition: 'type',

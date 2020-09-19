@@ -4,11 +4,10 @@ export class CardFilter extends BaseFilter {
 
     public card_number: number;
     public card_limit: number;
-    public card_value: number;
-    public card_start_value: number;
-    public debitCreditId: number;
-    public chequingId: number;
-    public userId: number;
+    public balance: number;
+    public card_initial_value: number;
+    public is_credit_card: boolean;
+    public chequing_id: number;
 
     constructor(data?: any) {
         super(data);
@@ -16,11 +15,10 @@ export class CardFilter extends BaseFilter {
         if (data) {
             this.card_number = data.card_number;
             this.card_limit = data.card_limit;
-            this.card_value = data.card_value;
-            this.card_start_value = data.card_start_value;
-            this.debitCreditId = data.debitCreditId;
-            this.chequingId = data.chequingId;
-            this.userId = data.userId;
+            this.balance = data.balance;
+            this.card_initial_value = data.card_initial_value;
+            this.is_credit_card = data.is_credit_card;
+            this.chequing_id = data.chequing_id;
 
         }
     }
@@ -34,20 +32,17 @@ export class CardFilter extends BaseFilter {
         if (this.card_limit) {
             qs += `&card_limit=${this.card_limit}`;
         }
-        if (this.card_value) {
-            qs += `&card_value=${this.card_value}`;
+        if (this.balance) {
+            qs += `&balance=${this.balance}`;
         }
-        if (this.card_start_value) {
-            qs += `&card_start_value=${this.card_start_value}`;
+        if (this.card_initial_value) {
+            qs += `&card_initial_value=${this.card_initial_value}`;
         }
-        if (this.debitCreditId) {
-            qs += `&debitCreditId=${this.debitCreditId}`;
+        if (this.is_credit_card) {
+            qs += `&is_credit_card=${this.is_credit_card}`;
         }
-        if (this.chequingId) {
-            qs += `&chequingId=${this.chequingId}`;
-        }
-        if (this.userId) {
-            qs += `&userId=${this.userId}`;
+        if (this.chequing_id) {
+            qs += `&chequing_id=${this.chequing_id}`;
         }
 
         return qs;

@@ -73,7 +73,7 @@ export abstract class BaseListComponent<TModel> extends BaseComponent implements
 
     public changePage(page: PageEvent): void {
         this.filter.pagination.pageSize = page.pageSize;
-        this.filter.pagination.pageNumber = page.pageIndex + 1;
+        this.filter.pagination.page = page.pageIndex + 1;
         this.load();
     }
 
@@ -127,7 +127,6 @@ export abstract class BaseListComponent<TModel> extends BaseComponent implements
             cancelButtonText: cancelButtonText
         }).then((result: any) => {
             if (result.value) {
-                debugger
                 this.apiService
                     // .delete(model.id)
                     .delete(model.uuid)

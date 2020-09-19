@@ -16,6 +16,8 @@ export class Invoice extends BaseModel {
     public card_id: number
     public card: Card = new Card();
     public username: number;
+    public start_date: Date;
+    public end_date: Date;
 
 
     constructor(data?: any) {

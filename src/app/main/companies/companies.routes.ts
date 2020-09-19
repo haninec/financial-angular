@@ -1,8 +1,6 @@
 import { CompanyListComponent } from './list/company-list.component';
 import { CompanyDetailsComponent } from './details/company-details.component';
 
-
-
 export const CompanyRoutes = [
     {
         path: '',

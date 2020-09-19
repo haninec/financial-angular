@@ -2,30 +2,22 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes } from '@angular/router';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import 'hammerjs';
-
 import { FuseModule } from '@fuse/fuse.module';
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseProgressBarModule, FuseSidebarModule, FuseThemeOptionsModule } from '@fuse/components';
-
 import { fuseConfig } from 'app/fuse-config';
-
 import { AppComponent } from 'app/app.component';
 import { LayoutModule } from 'app/layout/layout.module';
 import { SampleModule } from 'app/main/sample/sample.module';
 import { MaterialModule } from './material.module';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { AlertService } from './shared/services/alert.service';
 import { BroadcastService } from './shared/services/broadcast.service';
 import { StorageService } from './shared/services/storage.service';
 import { SharedModule } from './shared/shared.module';
 import { AppRoutes } from './app.routes';
-
 import { NgxMaskModule } from 'ngx-mask';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -47,9 +39,6 @@ import { ToastrModule } from 'ngx-toastr';
             autoDismiss: true
         }),
 
-        // Material moment date module
-        MatMomentDateModule,
-
         // Material
         MaterialModule,
 
@@ -63,7 +52,6 @@ import { ToastrModule } from 'ngx-toastr';
         // App modules
         LayoutModule,
         SampleModule,
-
         SharedModule
     ],
     providers: [

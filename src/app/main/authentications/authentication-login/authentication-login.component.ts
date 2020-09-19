@@ -2,11 +2,12 @@ import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { FuseConfigService } from '@fuse/services/config.service';
+import { fuseAnimations } from '@fuse/animations';
+
 import { Login } from 'app/shared/models/login.model';
 import { LoginService } from 'app/shared/services/login.service';
 import { BaseAuthenticationComponent } from 'app/shared/components/base/base-authentication.component';
-import { FuseConfigService } from '@fuse/services/config.service';
-import { fuseAnimations } from '@fuse/animations';
 import { UserService } from 'app/shared/services/user.service';
 
 
@@ -49,18 +50,13 @@ export class AuthenticationLoginComponent extends BaseAuthenticationComponent<Lo
                 }
             }
         };
-
-
     }
-
 
     public ngOnInit(): void {
         super.ngOnInit();
         this.loading = setInterval(() => {
             this.startApp()
         }, 5000);
-
-
     };
 
     public ngOnDestroy() {
@@ -79,8 +75,6 @@ export class AuthenticationLoginComponent extends BaseAuthenticationComponent<Lo
             });
 
     }
-
-
 
     public createFormGroup(): FormGroup {
         return new Login().toFormGroup();

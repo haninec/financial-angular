@@ -4,11 +4,9 @@ import * as shape from 'd3-shape';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { InvoiceValueService } from 'app/shared/services/invoices-values.service';
-import { InvoiceValue } from 'app/shared/models/invoice-value.model';
-import { InvoiceValueFilter } from 'app/shared/filters/invoice-value.filter';
 import { CardService } from 'app/shared/services/card.service';
 import { CardFilter } from 'app/shared/filters/card.filter';
-import { ChartService } from 'app/shared/services/chart.service';
+import { CardChartValuesService } from 'app/shared/services/card_chart_value';
 
 
 
@@ -21,10 +19,9 @@ import { ChartService } from 'app/shared/services/chart.service';
     animations: fuseAnimations
 })
 export class ProjectDashboardComponent implements OnInit {
-    selectedOut = 'outcomeInvoiceQueryAM';
-    selectedIn = 'incomeInvoiceQueryAM';
+    selectedOut = 'this_month_outcome_value';
+    selectedIn = 'this_month_income_value';
 
-    public filter: InvoiceValueFilter = new InvoiceValueFilter({ hasPagination: true });
     selectedOption: string;
     projects: any[];
     selectedProject: any;
@@ -64,9 +61,9 @@ export class ProjectDashboardComponent implements OnInit {
     obj = []
 
     // FOR INVOICES VALUES
-    public valueIncome: Observable<InvoiceValue>[];
-    public valueOutcome: Observable<InvoiceValue>[];
-    public invoiceValue: (BaseModel: InvoiceValue) => InvoiceValue;
+    public valueIncome: Observable<any>[];
+    public valueOutcome: Observable<any>[];
+    public invoiceValue: (BaseModel: any) => any;
 
     // FOR CREDIT CARDS VALUE
     public cards: string[];
@@ -102,13 +99,14 @@ export class ProjectDashboardComponent implements OnInit {
         private _fuseSidebarService: FuseSidebarService,
         public invoiceValueService: InvoiceValueService,
         public cardService: CardService,
-        public chartService: ChartService
+        public cardChartValuesService: CardChartValuesService,
     ) {
 
 
     }
 
     ngOnInit(): void {
+        debugger
         this.loadCredit();
         this.loadDebit();
         this.loadInvoiceValue();
@@ -152,15 +150,14 @@ export class ProjectDashboardComponent implements OnInit {
         };
     }
 
-
     public loadCreditChart() {
+        debugger
         var i = 0
         var usage
         var total
 
         this.cards.forEach(card => {
-
-            usage = Number(card['card_value']) * (-1)
+            usage = Number(card['balance']) * (-1)
 
             if (usage < 0) {
                 total = Number(card['card_limit']) - usage
@@ -169,13 +166,12 @@ export class ProjectDashboardComponent implements OnInit {
             else {
                 total = Number(card['card_limit']) - usage
             }
-
             this.value[i] =
             {
                 name:
-                    card['chequing_account']['bank']['bank_initials']
+                    card['chequing']['bank']['bank_initials']
                     + ' '
-                    + card['chequing_account']['holder_account']['holder_first_name']
+                    + card['chequing']['holder']['holder_name']
                     + ' ' + card['card_number'],
                 series: [
                     {
@@ -187,100 +183,75 @@ export class ProjectDashboardComponent implements OnInit {
                         value: total
                     },
                 ]
-            }
-
-
+            };
             this.obj.push(this.value[i])
             i = i + 1
-
         })
     };
 
-
     // GET INVOICE VALUE 
     public loadInvoiceValue(): void {
-        const filter = new InvoiceValueFilter({
-            pagination: {
-                sortBy: 'name',
-                sortDirection: 'asc'
-            }
-        });
         this.invoiceValueService
-            .get(filter.toQueryString())
+            .get()
             .subscribe((response: any) => {
-                this.invoiceValue = response.data;
-                this.valueIncome = response.data.incomeInvoiceQueryAM;
-                this.valueOutcome = response.data.outcomeInvoiceQueryAM;
-
+                this.invoiceValue = response.results;
+                this.valueIncome = response.results.this_month_income_value;
+                this.valueOutcome = response.results.this_month_outcome_value;
             });
     }
 
     // GET CREDIT CARDS 
     public loadCredit(): void {
         const filter = new CardFilter({
-            debitCreditId: 2
+            is_credit_card: true
         });
-
-
         this.cardService
             .get(filter.toQueryString())
             .subscribe((response: any) => {
-                this.cards = response.data;
+                this.cards = response.results;
                 this.loadCreditChart();
-
             });
     }
 
     // GET DEBIT CARDS 
     public loadDebit(): void {
         const filter = new CardFilter({
-            debitCreditId: 1
+            is_credit_card: false
         });
-
 
         this.cardService
             .get(filter.toQueryString())
             .subscribe((response: any) => {
-                this.cardsDebit = response.data;
+                this.cardsDebit = response.results;
             });
     }
 
 
     public changeValue($event) {
-        if ($event === 'incomeInvoiceQueryAM') {
-
-            this.valueIncome = this.invoiceValue['incomeInvoiceQueryAM']
-        }
-        if ($event === 'incomeInvoiceQueryLM') {
-            this.valueIncome = this.invoiceValue['incomeInvoiceQueryLM']
-        }
-        if ($event === 'outcomeInvoiceQueryAM') {
-            this.valueOutcome = this.invoiceValue['outcomeInvoiceQueryAM']
-        }
-        if ($event === 'outcomeInvoiceQueryLM') {
-            this.valueOutcome = this.invoiceValue['outcomeInvoiceQueryLM']
-
-        }
-
-
+        if ($event === 'this_month_income_value') {
+            this.valueIncome = this.invoiceValue['this_month_income_value']
+        };
+        if ($event === 'last_month_income_value') {
+            this.valueIncome = this.invoiceValue['last_month_income_value']
+        };
+        if ($event === 'this_month_outcome_value') {
+            this.valueOutcome = this.invoiceValue['this_month_outcome_value']
+        };
+        if ($event === 'last_month_outcome_value') {
+            this.valueOutcome = this.invoiceValue['last_month_outcome_value']
+        };
     }
 
-    public calculateUsage(card_value, card_limit) {
+    public calculateUsage(balance, card_limit) {
         if (card_limit == undefined) {
-            return Number(card_value) * (-1)
-        }
-        return ((100 * Number(card_value)) / Number(card_limit)) * (-1);
-
+            return Number(balance) * (-1)
+        };
+        return ((100 * Number(balance)) / Number(card_limit)) * (-1);
     }
 
-    public calculateRemaining(card_value, card_limit) {
-        return card_limit - (Number(card_value) * (-1));
-
+    public calculateRemaining(balance, card_limit) {
+        return card_limit - (Number(balance) * (-1));
     }
-
-
-
-
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
@@ -294,27 +265,19 @@ export class ProjectDashboardComponent implements OnInit {
         this._fuseSidebarService.getSidebar(name).toggleOpen();
     }
 
-
-
     // FOR CHART INCOME OUTCOME
-
-
     public chart() {
-        this.chartService
+        this.cardChartValuesService
             .get()
             .subscribe((response: any) => {
                 this.chartValue = response.values;
                 this.inOutValues = response.inLessOut;
                 this.chartIncomeOutcome();
                 this.loadedChart = true
-
             });
-
-
-
     }
-    public chartIncomeOutcome() {
 
+    public chartIncomeOutcome() {
         this.widgetIncomeOutcomeColors = {
             colors:
                 [{
@@ -333,14 +296,11 @@ export class ProjectDashboardComponent implements OnInit {
                     pointHoverBackgroundColor: "#3949ab",
                     pointHoverBorderColor: "#ffffff"
                 }]
-
-        }
+        };
 
         this.widgetIncomeOutcomeChartType = {
             chartType: "line"
-        }
-
-
+        };
 
         this.widgetIncomeOutcomeChartOptions = {
             elements: {
@@ -383,19 +343,9 @@ export class ProjectDashboardComponent implements OnInit {
                 spanGaps: false,
                 tooltips: { position: "nearest", mode: "index", intersect: false }
             }
-
-
-
-        }
-    }
-
-
-
-
+        };
+    };
 }
-
-
-
 
 export class FilesDataSource { }
 

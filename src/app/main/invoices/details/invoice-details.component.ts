@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 import { BaseDetailsComponent } from 'app/shared/components/base/base-details.component';
 import { Invoice } from 'app/shared/models/invoice.models';
 import { InvoiceService } from 'app/shared/services/invoice.service';
@@ -12,8 +13,8 @@ import { CardFilter } from 'app/shared/filters/card.filter';
 import { Company } from 'app/shared/models/company.models';
 import { CompanyService } from 'app/shared/services/company.service';
 import { CompanyFilter } from 'app/shared/filters/company.filter';
-import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
+import { InvoiceFilter } from 'app/shared/filters/invoice.filter';
+
 
 
 
@@ -25,6 +26,8 @@ import { startWith, map } from 'rxjs/operators';
 export class InvoiceDetailsComponent extends BaseDetailsComponent<Invoice> implements OnInit, OnDestroy {
     public cards: Card[] = [];
     public companies: Company[] = [];
+    public filter: InvoiceFilter = new InvoiceFilter({ hasPagination: true });
+    
 
     public is_incomes: any[] = [
         { is_income: true, value: 'Income' },
@@ -39,7 +42,7 @@ export class InvoiceDetailsComponent extends BaseDetailsComponent<Invoice> imple
         public cardService: CardService,
         public companyService: CompanyService,
         public dialog: MatDialog,
-        @Inject(MAT_DIALOG_DATA) public data?: Invoice) {
+        @Inject(MAT_DIALOG_DATA) public data?: any) {
         super(router, activatedRoute, apiService, dialog);
 
         this.baseUrl = 'invoices';
@@ -89,43 +92,38 @@ export class InvoiceDetailsComponent extends BaseDetailsComponent<Invoice> imple
         return new Invoice().toFormGroup();
     }
 
-    public saveChanges(): void {
-        this.model = this.form.value;
-        this.isLoading = true;
-        this.apiService
-            .saveById(this.model)
-            .subscribe((response: BaseResponse<Invoice>) => {
-                this.isLoading = false;
-                this.dialog.closeAll();
-            }, () => {
-                this.isLoading = false;
-            });
-    }
     public closeDialog(): void {
         this.dialog.closeAll();
     }
 
-    // FIX DATE WHEN UPDATING
     public load(): void {
         if (this.data.uuid != undefined) {
+            this.isEditMode = true;
             this.apiService
                 .getByUuid(this.data.uuid)
                 .subscribe((item: BaseResponse<any>) => {
-                    item['invoice_date'] = item['invoice_date'].split("/")
-                    item['invoice_date'] = new Date(
-                        +item['invoice_date'][2],
-                        item['invoice_date'][1] - 1,
-                        +item['invoice_date'][0]
-                    )
                     this.model = this.apiService.map(item);
                     this.form.patchValue(this.model);
-                    this.isLoading = false
-                }, (err) => {
-                }, () => {
                     this.afterLoad();
                 });
-        } else {
+        }
+        else {
             this.afterLoad();
         }
     }
+
+    public saveChanges(): void {
+        this.model = this.form.value;
+
+        this.isLoading = true;
+        this.apiService
+            // .saveById(this.model)
+            .saveByUuid(this.model)
+            .subscribe((response: BaseResponse<Invoice>) => {
+                this.isLoading = false;
+                this.dialog.closeAll();
+            });
+    }
+
+
 }

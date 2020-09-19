@@ -35,8 +35,8 @@ export abstract class BaseFilter {
                 qs += `&pageSize=${this.pagination.pageSize}`;
             }
 
-            if (this.pagination.pageNumber) {
-                qs += `&pageNumber=${this.pagination.pageNumber}`;
+            if (this.pagination.page) {
+                qs += `&page=${this.pagination.page}`;
             }
 
             // Ordering fixed

@@ -2,13 +2,11 @@ import { Injectable, SkipSelf } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { BaseService } from './base.service';
-import { CardType } from '../models/card-type.model';
-
 
 @Injectable()
-export class CardTypeService extends BaseService<CardType> {
+export class CardChartValuesService extends BaseService<any> {
 
-    serviceName = 'debitCredit/';
+    serviceName = 'card_chart_values/';
 
     constructor(
         @SkipSelf() protected http: HttpClient) {

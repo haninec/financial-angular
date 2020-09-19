@@ -6,6 +6,7 @@ import { InterceptorsModule } from './interceptors/interceptors.module';
 import { TablesModule } from './components/tables/tables.module';
 import { ButtonsModule } from './components/buttons/buttons.module';
 import { FormModule } from './components/forms/forms.module';
+import { MaterialModule } from 'app/material.module';
 
 
 
@@ -17,7 +18,8 @@ import { FormModule } from './components/forms/forms.module';
         ButtonsModule,
         TablesModule,
         InterceptorsModule,
-        FormModule
+        FormModule,
+        MaterialModule
     ],
     providers: [
         AlertService,

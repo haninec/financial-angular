@@ -1,9 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-
 import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
 import { Router, ActivatedRoute } from '@angular/router';
+
 import { BaseListComponent } from 'app/shared/components/base/base-list.component';
-import { Bank } from 'app/shared/models/bank.models';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { TableColumn } from 'app/shared/models/table-column.model';
 import { ChequingFilter } from 'app/shared/filters/chequing.filter';

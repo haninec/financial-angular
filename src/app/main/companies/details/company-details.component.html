@@ -4,7 +4,6 @@
         <div class="h2 mb-24">Companies</div>
         <div fxLayout="column" fxLayoutGap="20px">
             <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="15px">
-
                 <!-- ACCOUNT NUMBER FORM -->
                 <mat-form-field appearance="outline" fxFlex="auto" class="example-full-width">
                     <mat-label>Company Name</mat-label>
@@ -14,7 +13,6 @@
                     </mat-error>
                 </mat-form-field>
                 <!-- END ACCOUNT NUMBER FORM -->
-
                 <!-- BANK FORM -->
                 <mat-form-field appearance="outline" fxFlex="60%">
                     <mat-label>Select a Type</mat-label>
@@ -27,18 +25,13 @@
                     </mat-error>
                 </mat-form-field>
                 <!-- END BANK FORM -->
-
             </div>
-
             <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
                 <!-- ACTIVE STATUS FORM -->
                 <mat-slide-toggle formControlName="status">
                     Active?
                 </mat-slide-toggle>
-
             </div>
-
-
             <!-- BUTTONS FORM -->
             <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="15px">
                 <button mat-raised-button type="button" color="warn" (click)="back()">
@@ -50,11 +43,6 @@
                         color="primary">Submit</button>
                 </div>
             </div>
-
-
-
-
         </div>
     </form>
-
 </div>

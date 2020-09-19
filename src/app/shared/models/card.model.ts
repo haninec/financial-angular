@@ -1,11 +1,7 @@
-
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { BaseModel } from './base.model';
 import { isNumberValidator } from '../validators/is-number.validator';
 import { Chequing } from './chequing.models';
-import { CardType } from './card-type.model';
-import { Holder } from './holder.model';
-
 
 
 export class Card extends BaseModel {

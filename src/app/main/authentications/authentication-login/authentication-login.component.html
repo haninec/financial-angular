@@ -1,15 +1,11 @@
 <div id="login" class="inner-scroll" fxLayout="row" fxLayoutAlign="start">
-
     <div id="login-intro" fxFlex fxHide fxShow.gt-xs>
-
         <div class="logo" [@animate]="{value:'*',params:{scale:'0.2'}}">
             <img src="assets/images/logos/fuse.svg">
         </div>
-
         <div class="title" [@animate]="{value:'*',params:{delay:'50ms',y:'25px'}}">
             Welcome to my Financial System!
         </div>
-
         <div class="description" [@animate]="{value:'*',params:{delay:'100ms',y:'25px'}}">
             This Webpage was developed by Ricardo Haninec Silva.<br>
             If you want to access, you can use:<br>
@@ -22,20 +18,14 @@
             For more informations, please contact me.<br>
             Ricardo.haninec@hotmail.com
         </div>
-
     </div>
-
     <div id="login-form-wrapper" fusePerfectScrollbar [@animate]="{value:'*',params:{delay:'300ms',x:'100%'}}">
-
         <div id="login-form">
-
             <div class="logo" fxHide.gt-xs>
                 <img src="assets/images/logos/fuse.svg">
             </div>
-
             <div class="title">LOGIN TO YOUR ACCOUNT</div>
             <form name="loginForm" [formGroup]="form" novalidate>
-
                 <mat-form-field appearance="outline">
                     <mat-label>Username</mat-label>
                     <input matInput formControlName="username">
@@ -44,7 +34,6 @@
                         Username is required
                     </mat-error>
                 </mat-form-field>
-
                 <mat-form-field appearance="outline">
                     <mat-label>Password</mat-label>
                     <input matInput type="password" formControlName="password">
@@ -53,13 +42,10 @@
                         Password is required
                     </mat-error>
                 </mat-form-field>
-
                 <button (click)="submit()" mat-raised-button color="accent" class="submit-button" aria-label="LOGIN"
                     [disabled]="form.invalid || loadingApi==true">
                     LOGIN
                 </button>
-
-
                 <div *ngIf="loadingApi==true">
                     <button class="submit-button" mat-raised-button color="warn">The API is initializing, just a sec.</button>
                 </div>
@@ -67,9 +53,7 @@
                     <button class="submit-button" mat-raised-button color="primary">The API is working.</button>
                 </div>
                 <p hidden *ngFor="let user of users">{{user.id}}</p>
-
             </form>
-
         </div>
     </div>
 </div>

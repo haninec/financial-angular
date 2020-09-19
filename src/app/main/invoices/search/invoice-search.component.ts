@@ -2,6 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { DatePipe } from '@angular/common';
+import {MatSnackBar} from '@angular/material/snack-bar';
+
 import { BaseDetailsComponent } from 'app/shared/components/base/base-details.component';
 import { Invoice } from 'app/shared/models/invoice.models';
 import { InvoiceService } from 'app/shared/services/invoice.service';
@@ -9,8 +12,7 @@ import { CardService } from 'app/shared/services/card.service';
 import { BaseResponse } from 'app/shared/models/base-response.model';
 import { CardFilter } from 'app/shared/filters/card.filter';
 import { Card } from 'app/shared/models/card.model';
-import { DatePipe } from '@angular/common';
-import {MatSnackBar} from '@angular/material/snack-bar';
+
 
 
 
@@ -80,7 +82,6 @@ export class InvoiceSearchComponent extends BaseDetailsComponent<Invoice> implem
     };
 
     public search(){
-        
         this.todayString = this.today.toString()
         this.todayString = this.pipe.transform(this.todayString, 'yyyy-MM-dd');
         this.start_date = this.searchForm.value.start_date

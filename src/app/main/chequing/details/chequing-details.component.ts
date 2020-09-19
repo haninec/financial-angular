@@ -1,17 +1,16 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+
+
 import { BaseDetailsComponent } from 'app/shared/components/base/base-details.component';
 import { Bank } from 'app/shared/models/bank.models';
-
 import { ChequingService } from 'app/shared/services/chequing.service';
 import { Chequing } from 'app/shared/models/chequing.models';
 import { BankService } from 'app/shared/services/bank.service';
 import { BaseResponse } from 'app/shared/models/base-response.model';
 import { BankFilter } from 'app/shared/filters/bank.filter';
-import { BaseModel } from 'app/shared/models/base.model';
 import { HolderFilter } from 'app/shared/filters/holder.filter';
 import { Holder } from 'app/shared/models/holder.model';
 import { HolderService } from 'app/shared/services/holder.service';
@@ -25,9 +24,6 @@ import { HolderService } from 'app/shared/services/holder.service';
 export class ChequingDetailsComponent extends BaseDetailsComponent<Chequing> implements OnInit, OnDestroy {
     public banks: Bank[]
     public holders: Holder[]
-
-
-
 
     public chequing: Chequing[] = []
     constructor(
@@ -47,7 +43,6 @@ export class ChequingDetailsComponent extends BaseDetailsComponent<Chequing> imp
         this.loadBank();
         this.loadholder();
     }
-
 
     // LOAD BANKS
     public loadBank(): void {

@@ -3,23 +3,22 @@ import { BaseFilter } from './base.filter';
 export class InvoiceFilter extends BaseFilter {
 
     public invoice_date: Date;
-    public companyId: number;
-    public priceId: number;
-    public debitCreditId: number;
-    public cardId: number
-    public userId: number;
+    public company_id: number;
+    public start_date: Date;
+    public end_date: Date;
+    public card_id: number
+    public is_income: boolean;
 
     constructor(data?: any) {
         super(data);
 
         if (data) {
             this.invoice_date = data.invoice_date;
-            this.companyId = data.companyId;
-            this.priceId = data.priceId;
-            this.debitCreditId = data.debitCreditId;
-            this.cardId = data.cardId;
-            this.userId = data.userId;
-
+            this.company_id = data.company_id;
+            this.start_date = data.start_date;
+            this.end_date = data.end_date;
+            this.is_income = data.is_income;
+            this.card_id = data.card_id;    
         }
     }
 
@@ -29,23 +28,22 @@ export class InvoiceFilter extends BaseFilter {
         if (this.invoice_date) {
             qs += `&invoice_date=${this.invoice_date}`;
         }
-        if (this.companyId) {
-            qs += `&companyId=${this.companyId}`;
+        if (this.company_id) {
+            qs += `&company_id=${this.company_id}`;
         }
-        if (this.priceId) {
-            qs += `&priceId=${this.priceId}`;
+        if (this.start_date) {
+            qs += `&start_date=${this.start_date}`;
         }
-        if (this.debitCreditId) {
-            qs += `&debitCreditId=${this.debitCreditId}`;
+        if (this.end_date) {
+            qs += `&end_date=${this.end_date}`;
         }
-        if (this.cardId) {
-            qs += `&cardId=${this.cardId}`;
+        if (this.is_income) {
+            qs += `&is_income=${this.is_income}`;
         }
-        if (this.userId) {
-            qs += `&userId=${this.userId}`;
-
-            return qs;
+        if (this.card_id) {
+            qs += `&card_id=${this.card_id}`;
         }
+        return qs;
     }
 }
 

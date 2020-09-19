@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+
 import { BaseDetailsComponent } from 'app/shared/components/base/base-details.component';
 import { BaseResponse } from 'app/shared/models/base-response.model';
 import { Company } from 'app/shared/models/company.models';
@@ -37,7 +38,6 @@ export class CompanyDetailsComponent extends BaseDetailsComponent<Company> imple
         this.loadType();
     }
 
-
     // LOAD TYPE
     public loadType(): void {
         const filter = new TypeFilter({
@@ -46,7 +46,6 @@ export class CompanyDetailsComponent extends BaseDetailsComponent<Company> imple
             },
             status: true
         });
-        
         this.typeService
             .get(filter.toQueryString())
             .subscribe((response: BaseResponse<Type[]>) => {
@@ -54,8 +53,8 @@ export class CompanyDetailsComponent extends BaseDetailsComponent<Company> imple
             });
         
     }
-    // END LOAD TYPES
 
+    // END LOAD TYPES
     public createFormGroup(): FormGroup {
         return new Company().toFormGroup();
     }

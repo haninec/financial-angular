@@ -1,18 +1,18 @@
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute, QueryParamsHandling } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+
 import { BaseListComponent } from 'app/shared/components/base/base-list.component';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
-import { MatPaginator } from '@angular/material/paginator';
 import { Invoice } from 'app/shared/models/invoice.models';
 import { InvoiceService } from 'app/shared/services/invoice.service';
 import { InvoiceFilter } from 'app/shared/filters/invoice.filter';
 import { BaseResponse } from 'app/shared/models/base-response.model';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
 import Swal from 'sweetalert2';
 import { InvoiceDetailsComponent } from '../details/invoice-details.component';
-
 
 
 @Component({
@@ -21,12 +21,11 @@ import { InvoiceDetailsComponent } from '../details/invoice-details.component';
     styleUrls: ['./invoice-list.component.scss']
 })
 export class InvoiceListComponent extends BaseListComponent<Invoice> implements OnInit, OnDestroy {
-
     public filter: InvoiceFilter = new InvoiceFilter({ hasPagination: true });
-    public query: any;
-    public qs: string;
-    public data: any[] = [];
     public invoices: MatTableDataSource<Invoice> = new MatTableDataSource([]);
+    public query: string;
+
+
     displayedColumns: string[] = [
         'invoice_date',
         'company',
@@ -54,29 +53,31 @@ export class InvoiceListComponent extends BaseListComponent<Invoice> implements 
         this.loadInvoices();
     }
 
+
     // LOAD INVOICES
-    public loadInvoices(): void {
-        debugger
+    public loadInvoices(event?): void {
+        const query = this.activatedRoute.snapshot.queryParams;
+        const filter = new InvoiceFilter({
+            pagination: {
+                ordering: '-invoice_date',
+            },
+
+            card_id: query.card_id,
+            is_income: query.is_income,
+            start_date: query.start_date,
+            end_date: query.end_date,
+            status: true
+        });
         this.apiService
-            .get(this.searchFilter())
+            .get(filter.toQueryString())
             .subscribe((response: BaseResponse<Invoice[]>) => {
                 this.invoices.data = response.results
-                this.data = response.results
                 this.invoices.sort = this.sort
                 this.invoices.paginator = this.paginator;
                 this.isLoading = false
             });
     }
 
-    public searchFilter() {
-        this.qs = ''
-        this.query = this.activatedRoute.snapshot.queryParams;
-        this.qs = '&card_id=' + this.query.card_id + this.qs
-        this.qs = '&is_income=' + this.query.is_income + this.qs
-        this.qs = '&start_date=' + this.query.start_date + this.qs
-        this.qs = '&end_date=' + this.query.end_date + this.qs
-        return this.qs
-    }
 
     public back(): void {
         this.router.navigateByUrl(this.baseUrl);
@@ -122,10 +123,10 @@ export class InvoiceListComponent extends BaseListComponent<Invoice> implements 
 
     // FOR EDIT DIALOG
     public openEditDialog(data: Invoice) {
+        const query = this.activatedRoute.snapshot.queryParams;
         this.dialog.open(InvoiceDetailsComponent, {
             width: '10000px',
-            data: data
-        })
+            data: data,
 
-    }
+        })}
 }

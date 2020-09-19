@@ -3,14 +3,10 @@ import { HttpClient } from '@angular/common/http';
 
 import { BaseService } from './base.service';
 
-import { InvoiceValue } from '../models/invoice-value.model';
-
-
-
 @Injectable()
-export class InvoiceValueService extends BaseService<InvoiceValue> {
+export class InvoiceValueService extends BaseService<any> {
 
-    serviceName = 'invoicesThisLast/';
+    serviceName = 'invoices_val_past_month/';
 
     constructor(
         @SkipSelf() protected http: HttpClient) {

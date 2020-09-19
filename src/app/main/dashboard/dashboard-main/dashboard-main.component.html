@@ -1,43 +1,30 @@
 <div id="dashboard-project" class="page-layout simple right-sidebar" fxLayout="row">
-
     <!-- CENTER -->
     <div class="center" fusePerfectScrollbar>
-
         <!-- HEADER -->
         <div class="header accent p-24 pb-0" fxLayout="column" fxLayoutAlign="space-between">
-
             <div fxLayout="row" fxLayoutAlign="space-between start">
-
                 <span class="mat-display-1 my-0 my-sm-24 welcome-message"
                     [@animate]="{value:'*',params:{x:'50px'}}">Welcome!!!
                 </span>
-
                 <button mat-icon-button class="sidebar-toggle mr-8" fxHide.gt-md
                     (click)="toggleSidebar('project-dashboard-right-sidebar-1')">
                     <mat-icon>menu</mat-icon>
                 </button>
             </div>
-
-
         </div>
         <!-- / HEADER -->
-
         <!-- CONTENT -->
         <div class="content">
             <mat-tab-group dynamicHeight>
-
                 <mat-tab label="Home">
                     <div fxLayout="column">
                         <!-- Widget 5 -->
-
                         <div class="fuse-card auto-width">
-
-
                             <div class="position-relative p-24" fxLayout="row" fxLayoutAlign="space-between center">
                                 <div fxLayout="column" fxLayoutAlign="start start">
                                     <span class="h2">Income and Outcome by months</span>
                                 </div>
-
                                 <div fxLayout="row" fxLayoutAlign="start center">
                                     <div class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer"
                                         (click)="widget5SelectedDay = 'today'"
@@ -52,32 +39,23 @@
                                     <b>Loading Charts..</b>
                                     <mat-progress-spinner color="primary" mode="indeterminate" [diameter]="25">
                                     </mat-progress-spinner>
-
                                 </div>
                                 <canvas *ngIf="loadedChart==true" baseChart [datasets]="chartValue"
                                     [labels]="widgetIncomeOutcomeLabel" [colors]="widgetIncomeOutcomeColors.colors"
                                     [options]="widgetIncomeOutcomeChartOptions"
                                     [chartType]="widgetIncomeOutcomeChartType.chartType">
                                 </canvas>
-
-
                             </div>
-
-
                         </div>
                         <!-- / Widget 5 -->
                         <!-- END OF FIRST ROW -->
                         <!-- NEW ROW -->
                         <div class="widget-group p-12" fxLayout="row" fxFlex="100" *fuseIfOnDom>
-
-
                             <!-- WIDGET 5 -->
                             <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" fxLayout="row" fxFlex="100"
                                 class="widget widget5">
-
                                 <!-- Front -->
                                 <div class="fuse-widget-front">
-
                                     <div class="px-16 border-bottom" fxLayout="row wrap"
                                         fxLayoutAlign="space-between center">
                                         <div fxFlex class="py-16 h3">Credit Card Limits</div>
@@ -97,7 +75,6 @@
                         </div>
                     </div>
                 </mat-tab>
-
                 <!-- TAB FOR LIMITS -->
                 <mat-tab label="Table for Cards">
                     <!-- CREDIT CARD TABLE -->
@@ -122,21 +99,19 @@
                                             <!-- HOLDER -->
                                             <td>
                                                 <span class="p-4">
-                                                    {{card.chequing_account.holder_account.holder_first_name}}
+                                                    {{card.chequing.holder.holder_name}}
                                                 </span>
                                                 <mat-icon class="s-16">
                                                 </mat-icon>
                                             </td>
-
                                             <!-- BANK -->
                                             <td>
                                                 <span class="p-4">
-                                                    {{card.chequing_account.bank.bank_initials}}
+                                                    {{card.chequing.bank.bank_initials}}
                                                 </span>
                                                 <mat-icon class="s-16">
                                                 </mat-icon>
                                             </td>
-
                                             <!-- CARD NUMBER -->
                                             <td>
                                                 <span class="p-4">
@@ -145,7 +120,6 @@
                                                 <mat-icon class="s-16">a
                                                 </mat-icon>
                                             </td>
-
                                             <!-- CARD LIMIT -->
                                             <td>
                                                 <span class="p-4">
@@ -154,31 +128,28 @@
                                                 <mat-icon class="s-16">a
                                                 </mat-icon>
                                             </td>
-
                                             <!-- USAGE -->
                                             <td>
                                                 <span class="p-4">
-                                                    CA$ {{calculateUsage(card.card_value)}}
+                                                    CA$ {{calculateUsage(card.balance)}}
                                                 </span>
                                                 <mat-icon class="s-16">
                                                 </mat-icon>
                                             </td>
-
                                             <!-- USAGE % -->
                                             <td>
                                                 <span class="p-4">
-                                                    {{calculateUsage(card.card_value, card.card_limit) | number : '1.2-2'}}
+                                                    {{calculateUsage(card.balance, card.card_limit) | number : '1.2-2'}}
                                                     %
                                                 </span>
                                                 <mat-icon class="s-16">
                                                 </mat-icon>
                                             </td>
-
                                             <!-- REMAINING -->
                                             <td>
                                                 <span class="p-4">
                                                     CA$
-                                                    {{calculateRemaining(card.card_value, card.card_limit) | number : '1.2-2'}}
+                                                    {{calculateRemaining(card.balance, card.card_limit) | number : '1.2-2'}}
                                                 </span>
                                                 <mat-icon class="s-16">
                                                 </mat-icon>
@@ -192,8 +163,6 @@
                     </fuse-widget>
                     <!-- / WIDGET 10 -->
                     <!-- END CREDIT CARD TABLE -->
-
-
                     <!-- DEBIT CARD TABLE -->
                     <!-- WIDGET 10 -->
                     <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="row" fxFlex="100">
@@ -216,7 +185,7 @@
                                             <!-- HOLDER -->
                                             <td>
                                                 <span class="p-4">
-                                                    {{debitCard.chequing_account.holder_account.holder_first_name}}
+                                                    {{debitCard.chequing.holder.holder_name}}
                                                 </span>
                                                 <mat-icon class="s-16">
                                                 </mat-icon>
@@ -225,7 +194,7 @@
                                             <!-- BANK -->
                                             <td>
                                                 <span class="p-4">
-                                                    {{debitCard.chequing_account.bank.bank_initials}}
+                                                    {{debitCard.chequing.bank.bank_initials}}
                                                 </span>
                                                 <mat-icon class="s-16">
                                                 </mat-icon>
@@ -243,12 +212,11 @@
                                             <!-- CARD LIMIT -->
                                             <td>
                                                 <span class="p-4">
-                                                    CA$ {{debitCard.card_value}}
+                                                    CA$ {{debitCard.balance}}
                                                 </span>
                                                 <mat-icon class="s-16">a
                                                 </mat-icon>
                                             </td>
-
                                         </tr>
                                     </tbody>
                                 </table>
@@ -259,10 +227,6 @@
                     <!-- / WIDGET 10 -->
                     <!-- END CARD TABLE -->
                 </mat-tab>
-
-
-
-
             </mat-tab-group>
         </div>
     </div>
@@ -291,15 +255,11 @@
                                 <span>{{dateNow | date: 'y'}}</span>
                             </div>
                         </div>
-
                     </div>
                     <!-- / Front -->
-
                 </fuse-widget>
                 <!-- / NOW WIDGET -->
-
                 <!-- WIDGET INCOME x OUTCOME -->
-
                 <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="pb-0">
                     <!-- Front -->
                     <!-- GOOD SAVINGS -->
@@ -312,7 +272,6 @@
                                 <mat-icon>attach_money</mat-icon>
                                 {{inOutValues}}
                             </div>
-
                             <div class="h3 secondary-text font-weight-500">
 
                             </div>
@@ -330,31 +289,24 @@
                                 {{inOutValues}}
                             </div>
                             <div class="h3 secondary-text font-weight-500">
-
                             </div>
                         </div>
                     </div>
                     <!-- / Front -->
-
                 </fuse-widget>
                 <!-- WIDGET INCOME x OUTCOME -->
-
-
                 <!-- WIDGET 1 -->
-
                 <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="pb-0">
                     <!-- Front -->
                     <div class="fuse-widget-front">
                         <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="space-between end">
-
                             <mat-form-field>
                                 <mat-select [ngModel]="selectedIn" (ngModelChange)="changeValue($event)"
                                     (click)="changeValue($event)">
-                                    <mat-option value="incomeInvoiceQueryAM">This Month</mat-option>
-                                    <mat-option value="incomeInvoiceQueryLM">Last Month</mat-option>
+                                    <mat-option value="this_month_income_value">This Month</mat-option>
+                                    <mat-option value="last_month_income_value">Last Month</mat-option>
                                 </mat-select>
                             </mat-form-field>
-
                         </div>
                         <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
                             <div class="light-green-fg font-size-62 line-height-62">
@@ -368,10 +320,8 @@
                         </div>
                     </div>
                     <!-- / Front -->
-
                 </fuse-widget>
                 <!-- END WIDGET 1 -->
-
                 <!-- WIDGET 1 -->
                 <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="pb-0">
                     <!-- Front -->
@@ -379,12 +329,10 @@
                         <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="space-between end">
                             <mat-form-field>
                                 <mat-select [ngModel]="selectedOut" (ngModelChange)="changeValue($event)">
-                                    <mat-option value="outcomeInvoiceQueryAM">This Month</mat-option>
-                                    <mat-option value="outcomeInvoiceQueryLM">Last Month</mat-option>
+                                    <mat-option value="this_month_outcome_value">This Month</mat-option>
+                                    <mat-option value="last_month_outcome_value">Last Month</mat-option>
                                 </mat-select>
                             </mat-form-field>
-
-
                         </div>
                         <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
                             <div class="red-fg font-size-62 line-height-62">
@@ -397,14 +345,9 @@
                         </div>
                     </div>
                     <!-- / Front -->
-
                 </fuse-widget>
                 <!-- END WIDGET 1 -->
-
-
-
             </div>
-
         </div>
     </fuse-sidebar>
     <!-- END SIDE BAR -->

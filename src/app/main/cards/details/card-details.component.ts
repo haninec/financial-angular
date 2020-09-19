@@ -1,13 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { BaseDetailsComponent } from 'app/shared/components/base/base-details.component';
 import { Card } from 'app/shared/models/card.model';
 import { CardService } from 'app/shared/services/card.service';
-import { CardTypeFilter } from 'app/shared/filters/card-type.filter';
-import { CardTypeService } from 'app/shared/services/card-type.service';
 import { ChequingFilter } from 'app/shared/filters/chequing.filter';
 import { Chequing } from 'app/shared/models/chequing.models';
 import { ChequingService } from 'app/shared/services/chequing.service';
@@ -33,15 +31,12 @@ export class CardDetailsComponent extends BaseDetailsComponent<Card> implements 
         public router: Router,
         public activatedRoute: ActivatedRoute,
         public apiService: CardService,
-        public cardTypeService: CardTypeService,
         public chequingService: ChequingService,
         public dialog: MatDialog,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService) {
         super(router, activatedRoute, apiService, dialog);
 
         this.baseUrl = 'cards';
-
-
     }
 
     public ngOnInit(): void {
@@ -49,8 +44,10 @@ export class CardDetailsComponent extends BaseDetailsComponent<Card> implements 
 
         this.isEdit();
         this.loadChequing();
+    }
 
-
+    public abc(page){
+        console.log(page)
     }
 
     // GET CHEQUING
@@ -64,7 +61,6 @@ export class CardDetailsComponent extends BaseDetailsComponent<Card> implements 
                 this.chequings = response.results;
             });
     }
-
 
     public isEdit() {
         this.uuid = (this.activatedRoute.snapshot.params['uuid']);

@@ -40,8 +40,7 @@ export abstract class BaseService<TModel> {
         return this.http.get<BaseResponse<TModel>>(`${this.url}${uuid}/`);
     }
 
-    public get(querystring?: string): Observable<BaseResponse<TModel[]>> {
-        
+    public get(querystring?: string): Observable<BaseResponse<TModel[]>> { 
         let url = `${this.url}`;
         if (querystring && querystring.length > 0) {
             url = url + '?' + querystring;
