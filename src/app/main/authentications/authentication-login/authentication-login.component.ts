@@ -69,7 +69,7 @@ export class AuthenticationLoginComponent extends BaseAuthenticationComponent<Lo
         this.userService
             .get()
             .subscribe((response: any) => {
-                this.users = response.data;
+                this.users = response.results;
                 this.loadingApi = false
                 this.ngOnDestroy();
             });

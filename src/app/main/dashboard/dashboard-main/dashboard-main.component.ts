@@ -106,7 +106,6 @@ export class ProjectDashboardComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        debugger
         this.loadCredit();
         this.loadDebit();
         this.loadInvoiceValue();
@@ -151,7 +150,6 @@ export class ProjectDashboardComponent implements OnInit {
     }
 
     public loadCreditChart() {
-        debugger
         var i = 0
         var usage
         var total

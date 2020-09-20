@@ -4,8 +4,8 @@ export class CompanyFilter extends BaseFilter {
 
 
     public company: string;
-    public typeId: number;
-    public userId: number;
+    public type_id: number;
+   
 
     
     
@@ -14,8 +14,7 @@ export class CompanyFilter extends BaseFilter {
 
         if (data) {
             this.company = data.company;
-            this.typeId = data.typeId;
-            this.userId = data.userId;
+            this.type_id = data.type_id;
         }
     }
 
@@ -26,12 +25,8 @@ export class CompanyFilter extends BaseFilter {
             qs += `&company=${this.company}`;
         }
 
-        if (this.typeId) {
-            qs += `&typeId=${this.typeId}`;
-        }
-
-        if (this.userId) {
-            qs += `&userId=${this.userId}`;
+        if (this.type_id) {
+            qs += `&type_id=${this.type_id}`;
         }
 
         return qs;

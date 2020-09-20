@@ -38,7 +38,8 @@ export class CardFilter extends BaseFilter {
         if (this.card_initial_value) {
             qs += `&card_initial_value=${this.card_initial_value}`;
         }
-        if (this.is_credit_card) {
+
+        if (this.is_credit_card == true || this.is_credit_card == false) {
             qs += `&is_credit_card=${this.is_credit_card}`;
         }
         if (this.chequing_id) {

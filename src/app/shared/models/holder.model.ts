@@ -1,7 +1,6 @@
 
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { BaseModel } from './base.model';
-import { isNumberValidator } from '../validators/is-number.validator';
 
 export class Holder extends BaseModel {
 

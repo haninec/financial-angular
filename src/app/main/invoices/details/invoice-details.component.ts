@@ -76,6 +76,7 @@ export class InvoiceDetailsComponent extends BaseDetailsComponent<Invoice> imple
     public loadCompanies(): void {
         const filter = new CompanyFilter({
             pagination: {
+                ordering: 'company'
             },
             status: true
         });
