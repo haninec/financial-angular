@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
     hmr: false,
-    apiEndpoint: 'https://mydjangodict.azurewebsites.net/newApi/',
-    tokenAuthStorage: 'myBlog.ui.site.prod'
+    apiEndpoint: 'https://ricardohsapi.azurewebsites.net/api/',
+    tokenAuthStorage: 'ricardohs.ui.site.prod'
 };
