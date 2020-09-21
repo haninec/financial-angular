@@ -8,6 +8,7 @@ import { BankService } from 'app/shared/services/bank.service';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { TableColumn } from 'app/shared/models/table-column.model';
 import { BankFilter } from 'app/shared/filters/bank.filter';
+import { GetTokenDataService } from 'app/shared/services/user.service';
 
 
 @Component({
@@ -17,18 +18,21 @@ import { BankFilter } from 'app/shared/filters/bank.filter';
 })
 export class BankListComponent extends BaseListComponent<Bank> implements OnInit, OnDestroy {
 
-    public filter: BankFilter = new BankFilter({ hasPagination: true });
+    public filter: BankFilter = new BankFilter({
+        hasPagination: true,
+    });
 
     constructor(
         public router: Router,
         public activatedRoute: ActivatedRoute,
         public apiService: BankService,
         public broadcastService: BroadcastService,
+        public getTokenDataService: GetTokenDataService,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService) {
-        super(router, activatedRoute, apiService, broadcastService);
+        super(router, activatedRoute, apiService, broadcastService, getTokenDataService);
 
         this.baseUrl = 'banks';
-        
+
 
         this.columns.push(new TableColumn({
             translate: 'Bank Initials',

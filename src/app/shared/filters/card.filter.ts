@@ -8,6 +8,7 @@ export class CardFilter extends BaseFilter {
     public card_initial_value: number;
     public is_credit_card: boolean;
     public chequing_id: number;
+    public user_id: number;
 
     constructor(data?: any) {
         super(data);
@@ -19,6 +20,7 @@ export class CardFilter extends BaseFilter {
             this.card_initial_value = data.card_initial_value;
             this.is_credit_card = data.is_credit_card;
             this.chequing_id = data.chequing_id;
+            this.user_id = data.user_id;
 
         }
     }
@@ -42,8 +44,13 @@ export class CardFilter extends BaseFilter {
         if (this.is_credit_card == true || this.is_credit_card == false) {
             qs += `&is_credit_card=${this.is_credit_card}`;
         }
+        
         if (this.chequing_id) {
             qs += `&chequing_id=${this.chequing_id}`;
+        }
+
+        if (this.user_id) {
+            qs += `&user_id=${this.user_id}`;
         }
 
         return qs;

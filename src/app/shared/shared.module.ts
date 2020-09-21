@@ -7,6 +7,7 @@ import { TablesModule } from './components/tables/tables.module';
 import { ButtonsModule } from './components/buttons/buttons.module';
 import { FormModule } from './components/forms/forms.module';
 import { MaterialModule } from 'app/material.module';
+import { GetTokenDataService } from './services/user.service';
 
 
 
@@ -24,7 +25,8 @@ import { MaterialModule } from 'app/material.module';
     providers: [
         AlertService,
         BroadcastService,
-        StorageService
+        StorageService,
+        GetTokenDataService
     ]
 })
 export class SharedModule { }

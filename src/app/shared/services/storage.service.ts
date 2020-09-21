@@ -10,7 +10,7 @@ export class StorageService {
 
     public getItem(key: string): any {
         try {
-            return JSON.parse(localStorage.getItem(key));
+            return localStorage.getItem(key);
         } catch (e) {
             return null;
         }

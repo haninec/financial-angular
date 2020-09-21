@@ -20,7 +20,7 @@ import { UserService } from 'app/shared/services/user.service';
     animations: fuseAnimations
 })
 export class AuthenticationLoginComponent extends BaseAuthenticationComponent<Login> implements OnInit, OnDestroy {
-    public users: any[] = []
+    public users: Login[] = []
     public loadingApi = true
     public loading: any
 

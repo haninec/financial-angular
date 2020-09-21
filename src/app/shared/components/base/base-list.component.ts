@@ -13,26 +13,29 @@ import { BaseFilter } from 'app/shared/filters/base.filter';
 import { BaseService } from 'app/shared/services/base.service';
 import { BaseResponse } from 'app/shared/models/base-response.model';
 import { Pagination } from 'app/shared/models/pagination.model';
+import { GetTokenDataService } from 'app/shared/services/user.service';
+import { Login } from 'app/shared/models/login.model';
 
 export abstract class BaseListComponent<TModel> extends BaseComponent implements OnInit, OnDestroy {
 
     public rows
     public columns: TableColumn[] = [];
-
     public filter: BaseFilter;
-
+    public user: Login;
+    
     constructor(
         public router: Router,
         public activatedRoute: ActivatedRoute,
         public apiService: BaseService<TModel>,
         public broadcastService: BroadcastService,
+        public getTokenDataService: GetTokenDataService,
         public dialog?: MatDialog) {
         super(router, activatedRoute, dialog);
     }
 
     public ngOnInit(): void {
         super.ngOnInit();
-
+        this.user = this.getTokenDataService.getUser();
         this.load();
     }
 
@@ -41,11 +44,9 @@ export abstract class BaseListComponent<TModel> extends BaseComponent implements
     }
 
     public load(): void {
-        
         super.load();
-
+        
         this.loadQueryString();
-
         // Limpando os registros
         this.rows = [];
         this.apiService

@@ -6,6 +6,7 @@ import { TableColumn } from 'app/shared/models/table-column.model';
 import { CompanyFilter } from 'app/shared/filters/company.filter';
 import { Company } from 'app/shared/models/company.models';
 import { CompanyService } from 'app/shared/services/company.service';
+import { GetTokenDataService } from 'app/shared/services/user.service';
 
 
 @Component({
@@ -21,8 +22,9 @@ export class CompanyListComponent extends BaseListComponent<Company> implements 
         public router: Router,
         public activatedRoute: ActivatedRoute,
         public apiService: CompanyService,
-        public broadcastService: BroadcastService) {
-        super(router, activatedRoute, apiService, broadcastService);
+        public broadcastService: BroadcastService,
+        public getTokenDataService: GetTokenDataService,) {
+        super(router, activatedRoute, apiService, broadcastService, getTokenDataService);
 
         this.baseUrl = 'companies';
         

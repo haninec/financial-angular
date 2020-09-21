@@ -7,6 +7,7 @@ import { TableColumn } from 'app/shared/models/table-column.model';
 import { TypeService } from 'app/shared/services/type.service';
 import { Type } from 'app/shared/models/type.models';
 import { TypeFilter } from 'app/shared/filters/type.filter';
+import { GetTokenDataService } from 'app/shared/services/user.service';
 
 
 
@@ -23,8 +24,9 @@ export class TypeListComponent extends BaseListComponent<Type> implements OnInit
         public router: Router,
         public activatedRoute: ActivatedRoute,
         public apiService: TypeService,
-        public broadcastService: BroadcastService) {
-        super(router, activatedRoute, apiService, broadcastService);
+        public broadcastService: BroadcastService,
+        public getTokenDataService: GetTokenDataService,) {
+        super(router, activatedRoute, apiService, broadcastService, getTokenDataService);
 
         this.baseUrl = 'types';
         

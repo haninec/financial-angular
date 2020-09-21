@@ -13,6 +13,7 @@ import { BaseResponse } from 'app/shared/models/base-response.model';
 import { MatTableDataSource } from '@angular/material/table';
 import Swal from 'sweetalert2';
 import { InvoiceDetailsComponent } from '../details/invoice-details.component';
+import { GetTokenDataService } from 'app/shared/services/user.service';
 
 
 @Component({
@@ -42,8 +43,9 @@ export class InvoiceListComponent extends BaseListComponent<Invoice> implements 
         public activatedRoute: ActivatedRoute,
         public apiService: InvoiceService,
         public broadcastService: BroadcastService,
+        public getTokenDataService: GetTokenDataService,
         public dialog: MatDialog) {
-        super(router, activatedRoute, apiService, broadcastService);
+        super(router, activatedRoute, apiService, broadcastService, getTokenDataService);
 
         this.baseUrl = 'invoices';
     }

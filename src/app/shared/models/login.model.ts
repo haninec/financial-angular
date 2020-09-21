@@ -6,6 +6,7 @@ export class Login extends BaseModel {
 
     public username: string;
     public password: string;
+    public user_id: number;
     
 
     constructor(data?: any) {
@@ -14,6 +15,7 @@ export class Login extends BaseModel {
         if (data) {
             this.username = data.username;
             this.password = data.password;
+            this.user_id = data.user_id;
         }
     }
 

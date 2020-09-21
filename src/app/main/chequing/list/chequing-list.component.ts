@@ -8,6 +8,7 @@ import { TableColumn } from 'app/shared/models/table-column.model';
 import { ChequingFilter } from 'app/shared/filters/chequing.filter';
 import { Chequing } from 'app/shared/models/chequing.models';
 import { ChequingService } from 'app/shared/services/chequing.service';
+import { GetTokenDataService } from 'app/shared/services/user.service';
 
 
 @Component({
@@ -24,8 +25,9 @@ export class ChequingListComponent extends BaseListComponent<Chequing> implement
         public activatedRoute: ActivatedRoute,
         public apiService: ChequingService,
         public broadcastService: BroadcastService,
+        public getTokenDataService: GetTokenDataService,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService) {
-        super(router, activatedRoute, apiService, broadcastService);
+        super(router, activatedRoute, apiService, broadcastService, getTokenDataService);
 
         this.baseUrl = 'chequing';
         

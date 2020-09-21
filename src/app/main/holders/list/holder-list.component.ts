@@ -7,6 +7,7 @@ import { TableColumn } from 'app/shared/models/table-column.model';
 import { Holder } from 'app/shared/models/holder.model';
 import { HolderFilter } from 'app/shared/filters/holder.filter';
 import { HolderService } from 'app/shared/services/holder.service';
+import { GetTokenDataService } from 'app/shared/services/user.service';
 
 
 @Component({
@@ -22,8 +23,9 @@ export class HolderListComponent extends BaseListComponent<Holder> implements On
         public router: Router,
         public activatedRoute: ActivatedRoute,
         public apiService: HolderService,
-        public broadcastService: BroadcastService) {
-        super(router, activatedRoute, apiService, broadcastService);
+        public broadcastService: BroadcastService,
+        public getTokenDataService: GetTokenDataService) {
+        super(router, activatedRoute, apiService, broadcastService, getTokenDataService);
 
         this.baseUrl = 'holders';
         

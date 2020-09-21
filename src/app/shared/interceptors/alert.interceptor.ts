@@ -43,7 +43,6 @@ export class AlertInterceptor implements HttpInterceptor {
                             break;
 
                         case 401:
-                            // this.tokenService.logout();
                             this.router.navigate([`login`]);
                             break;
 

@@ -11,6 +11,9 @@ import { Card } from 'app/shared/models/card.model';
 import { CardFilter } from 'app/shared/filters/card.filter';
 import { CardService } from 'app/shared/services/card.service';
 import { BaseResponse } from 'app/shared/models/base-response.model';
+import { Login } from 'app/shared/models/login.model';
+import { GetTokenDataService } from 'app/shared/services/user.service';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -23,6 +26,7 @@ export class CardListComponent extends BaseListComponent<Card> implements OnInit
     public filter: CardFilter = new CardFilter({ hasPagination: true });
     public rows: MatTableDataSource<Card> = new MatTableDataSource([]);
     public data: any[] = [];
+
     displayedColumns: string[] = [
         'bank_initials',
         'card_number',
@@ -40,24 +44,27 @@ export class CardListComponent extends BaseListComponent<Card> implements OnInit
         public activatedRoute: ActivatedRoute,
         public apiService: CardService,
         public broadcastService: BroadcastService,
+        public getTokenDataService: GetTokenDataService,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService) {
-        super(router, activatedRoute, apiService, broadcastService);
+        super(router, activatedRoute, apiService, broadcastService, getTokenDataService);
+        
+     
 
         this.baseUrl = 'cards';  
     }
 
-
     public ngOnInit(): void {
         this.isLoading = true
+        this.user = this.getTokenDataService.getUser();
         this.loadCards();
     }
 
     // LOAD CARDS
     public loadCards(): void {
         const filter = new CardFilter({
+            user_id: this.user.user_id,
             ordering: "id"
         });
-        
         this.apiService
             .get(filter.toQueryString())
             .subscribe((response: BaseResponse<Card[]>) => {
@@ -67,7 +74,5 @@ export class CardListComponent extends BaseListComponent<Card> implements OnInit
                 this.rows.paginator = this.paginator;
                 this.isLoading = false
             });
-
     }
-
 }

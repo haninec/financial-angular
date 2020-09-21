@@ -20,6 +20,7 @@ import { SharedModule } from './shared/shared.module';
 import { AppRoutes } from './app.routes';
 import { NgxMaskModule } from 'ngx-mask';
 import { ToastrModule } from 'ngx-toastr';
+import { GetTokenDataService } from './shared/services/user.service';
 
 @NgModule({
     declarations: [
@@ -58,6 +59,7 @@ import { ToastrModule } from 'ngx-toastr';
         AlertService,
         BroadcastService,
         StorageService,
+        GetTokenDataService
         
     ],
     bootstrap: [

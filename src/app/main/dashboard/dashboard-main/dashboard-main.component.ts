@@ -7,6 +7,8 @@ import { InvoiceValueService } from 'app/shared/services/invoices-values.service
 import { CardService } from 'app/shared/services/card.service';
 import { CardFilter } from 'app/shared/filters/card.filter';
 import { CardChartValuesService } from 'app/shared/services/card_chart_value';
+import { Login } from 'app/shared/models/login.model';
+import { GetTokenDataService } from 'app/shared/services/user.service';
 
 
 
@@ -21,6 +23,7 @@ import { CardChartValuesService } from 'app/shared/services/card_chart_value';
 export class ProjectDashboardComponent implements OnInit {
     selectedOut = 'this_month_outcome_value';
     selectedIn = 'this_month_income_value';
+    public user: Login;
 
     selectedOption: string;
     projects: any[];
@@ -100,12 +103,14 @@ export class ProjectDashboardComponent implements OnInit {
         public invoiceValueService: InvoiceValueService,
         public cardService: CardService,
         public cardChartValuesService: CardChartValuesService,
+        public getTokenDataService: GetTokenDataService
     ) {
 
 
     }
 
     ngOnInit(): void {
+        this.user = this.getTokenDataService.getUser();
         this.loadCredit();
         this.loadDebit();
         this.loadInvoiceValue();

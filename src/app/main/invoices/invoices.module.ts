@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatTableModule } from '@angular/material/table';
 import { FuseSharedModule } from '@fuse/shared.module';
-import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import { MaterialModule } from 'app/material.module';
 import { SharedModule } from 'app/shared/shared.module';
 import { InvoicesRoutes } from './invoices.routes';
 import { InvoiceService } from 'app/shared/services/invoice.service';
