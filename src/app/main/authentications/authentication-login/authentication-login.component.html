@@ -9,12 +9,9 @@
         <div class="description" [@animate]="{value:'*',params:{delay:'100ms',y:'25px'}}">
             This Webpage was developed by Ricardo Haninec Silva.<br>
             If you want to access, you can use:<br>
-            <b>Username:</b> Guest<br>
-            <b>Password:</b> WelcomeGuest!<br>
+            <b>Username:</b>Guest<br>
+            <b>Password:</b>1234?5678<br>
             <br>
-            Using this username and password, you are able to access the system but you are not allowed to delete,
-            change or retrieve any kind of data from my API.
-
             For more informations, please contact me.<br>
             Ricardo.haninec@hotmail.com
         </div>
@@ -47,7 +44,7 @@
                     LOGIN
                 </button>
                 <div *ngIf="loadingApi==true">
-                    <button class="submit-button" mat-raised-button color="warn">The API is initializing, just a sec.</button>
+                    <button class="submit-button" mat-raised-button color="warn">The API is initializing, just a moment.</button>
                 </div>
                 <div *ngIf="loadingApi==false">
                     <button class="submit-button" mat-raised-button color="primary">The API is working.</button>
