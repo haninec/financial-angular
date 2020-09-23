@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { BaseDetailsComponent } from 'app/shared/components/base/base-details.component';
 import { Invoice } from 'app/shared/models/invoice.models';
@@ -12,6 +12,9 @@ import { CardService } from 'app/shared/services/card.service';
 import { BaseResponse } from 'app/shared/models/base-response.model';
 import { CardFilter } from 'app/shared/filters/card.filter';
 import { Card } from 'app/shared/models/card.model';
+import { CompanyFilter } from 'app/shared/filters/company.filter';
+import { CompanyService } from 'app/shared/services/company.service';
+import { Company } from 'app/shared/models/company.models';
 
 
 
@@ -24,7 +27,8 @@ import { Card } from 'app/shared/models/card.model';
 export class InvoiceSearchComponent extends BaseDetailsComponent<Invoice> implements OnInit, OnDestroy {
 
     searchForm: FormGroup
-    public cards: Card[] = []
+    public cards: Card[] = [];
+    public companies: Company[] = [];
     public is_incomes: any[] = [
         { is_income: true, value: 'Income' },
         { is_income: false, value: 'Outcome' },
@@ -43,6 +47,7 @@ export class InvoiceSearchComponent extends BaseDetailsComponent<Invoice> implem
         public activatedRoute: ActivatedRoute,
         public apiService: InvoiceService,
         public cardService: CardService,
+        public companyService: CompanyService,
         public dialog: MatDialog,
         private _snackBar: MatSnackBar) {
         super(router, activatedRoute, apiService, dialog);
@@ -52,21 +57,21 @@ export class InvoiceSearchComponent extends BaseDetailsComponent<Invoice> implem
 
     public ngOnInit(): void {
         super.ngOnInit();
-        this.loadCards()
-
+        this.isLoading = true
         this.searchForm = this.formBuilder.group({
             start_date: '',
             end_date: '',
             is_income: '',
             card: '',
-        })
+            company_id: ''
+        });
+        this.loadCards();
+        this.loadCompanies();
     }
 
     // LOAD CARDS
     public loadCards(): void {
         const filter = new CardFilter({
-            pagination: {
-            },
             status: true
         });
         this.cardService
@@ -77,57 +82,75 @@ export class InvoiceSearchComponent extends BaseDetailsComponent<Invoice> implem
     }
     // END LOAD CARDS
 
+    // LOAD CARDS
+    public loadCompanies(): void {
+        const filter = new CompanyFilter({
+            pagination: {
+                ordering: 'company',
+            },
+            status: true
+        });
+        this.companyService
+            .get(filter.toQueryString())
+            .subscribe((response: BaseResponse<Company[]>) => {
+                this.companies = response.results;
+                this.afterLoad();
+            });
+    }
+    // END LOAD CARDS
+
     public newInvoice() {
         this.router.navigateByUrl('invoices/create');
     };
 
-    public search(){
+    public search() {
         this.todayString = this.today.toString()
         this.todayString = this.pipe.transform(this.todayString, 'yyyy-MM-dd');
         this.start_date = this.searchForm.value.start_date
         this.start_date = this.pipe.transform(this.start_date, 'yyyy-MM-dd');
         this.end_date = this.searchForm.value.end_date
         this.end_date = this.pipe.transform(this.end_date, 'yyyy-MM-dd');
-        
-        if (!this.end_date){
-            this.end_date=''
+
+        if (!this.end_date) {
+            this.end_date = ''
         }
 
-        if (!this.start_date){
-            this.start_date=''
+        if (!this.start_date) {
+            this.start_date = ''
         }
 
-        if (this.start_date && !this.end_date){
-            
+        if (this.start_date && !this.end_date) {
+
             this.end_date = this.todayString
             this.end_date = this.pipe.transform(this.end_date, 'yyyy-MM-dd');
         }
 
-        if (this.end_date && !this.start_date){
+        if (this.end_date && !this.start_date) {
             this.start_date = this.end_date
 
         }
 
-        if (this.start_date > this.todayString){
-            
+        if (this.start_date > this.todayString) {
+
             this.openSnackBar('Please, Review your dates!', 'Start Date is bigger than Today')
             return this.router.navigate(['invoices'])
         }
 
-        if (this.start_date > this.end_date){
-           this.openSnackBar('Please, Review your dates!', 'Start Date is bigger than End Date')
-           return this.router.navigate(['invoices'])
-           
+        if (this.start_date > this.end_date) {
+            this.openSnackBar('Please, Review your dates!', 'Start Date is bigger than End Date')
+            return this.router.navigate(['invoices'])
+
         }
 
-        this.router.navigate(['invoices/list'], { 
+        this.router.navigate(['invoices/list'], {
             queryParams: {
                 card_id: this.searchForm.value.card,
                 is_income: this.searchForm.value.is_income,
+                start_date: this.start_date,
                 end_date: this.end_date,
-                start_date: this.start_date
-            } 
-        });  
+                company_id: this.searchForm.value.company_id
+            }
+        });
     };
 
 
@@ -137,9 +160,9 @@ export class InvoiceSearchComponent extends BaseDetailsComponent<Invoice> implem
 
     public openSnackBar(message: string, action: string) {
         this._snackBar.open(message, action, {
-          duration: 12000,
+            duration: 12000,
         });
-      }
+    }
 
 
 

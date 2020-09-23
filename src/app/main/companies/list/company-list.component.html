@@ -1,7 +1,7 @@
 <div id="list" class="mat-card mat-elevation-z4 p-24 mr-24 page-layout simple fullwidth" fxLayoutGap="15px"
     fxLayout="column">
     <div class="h2 mb-24">Companies</div>
-    <div class="content p-24">
+    <div *ngIf="isLoading == false" class="content p-24">
         <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="end center">
             <button mat-raised-button class="btn-add mt-16 mt-sm-0" color="accent" (click)="create()">
                 <mat-icon class="mr-8">add</mat-icon>
@@ -13,4 +13,8 @@
             (changeSort)="changeSort($event)">
         </app-default-table>
     </div>
+    <mat-card *ngIf="isLoading == true" style="display: flex; justify-content: center; align-items: center">
+        <mat-progress-spinner color="primary" mode="indeterminate" [diameter]="25">
+        </mat-progress-spinner>
+    </mat-card>
 </div>

@@ -68,6 +68,7 @@ export class InvoiceListComponent extends BaseListComponent<Invoice> implements 
             is_income: query.is_income,
             start_date: query.start_date,
             end_date: query.end_date,
+            company_id: query.company_id,
             status: true
         });
         this.apiService

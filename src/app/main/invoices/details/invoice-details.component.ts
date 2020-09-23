@@ -50,9 +50,9 @@ export class InvoiceDetailsComponent extends BaseDetailsComponent<Invoice> imple
 
     public ngOnInit(): void {
         super.ngOnInit();
-        this.load();
-        this.loadCards();
+        this.isLoading = true;
         this.loadCompanies();
+        this.loadCards();
     }
 
     // LOAD CARDS
@@ -67,6 +67,7 @@ export class InvoiceDetailsComponent extends BaseDetailsComponent<Invoice> imple
             .get(filter.toQueryString())
             .subscribe((response: BaseResponse<Card[]>) => {
                 this.cards = response.results;
+                this.afterLoad();
             });
 
     }

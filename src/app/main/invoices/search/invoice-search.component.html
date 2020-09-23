@@ -7,7 +7,8 @@
             Invoice
         </button>
     </div>
-    <form fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="searchForm" [formGroup]="searchForm">
+    <form *ngIf="isLoading == false" fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="searchForm"
+        [formGroup]="searchForm">
         <div fxLayout="column" fxLayoutGap="20px">
             <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="15px">
                 <!-- INVOICE START DATE FORM -->
@@ -39,7 +40,7 @@
                 </mat-form-field>
                 <!-- END OUT FORM -->
                 <!-- CARD FORM -->
-                <mat-form-field appearance="outline" fxFlex="60%">
+                <mat-form-field appearance="outline" fxFlex="50%">
                     <mat-label>Select Card</mat-label>
                     <mat-select formControlName="card" disableRipple>
                         <mat-option *ngFor="let card of cards" [value]="card.id">
@@ -59,6 +60,18 @@
                     </mat-select>
                 </mat-form-field>
                 <!-- END CARD FORM -->
+                <!-- COMPANY FORM -->
+                <mat-form-field appearance="outline" fxFlex="25%">
+                    <mat-label>Select Company</mat-label>
+                    <mat-select formControlName="company_id" disableRipple>
+                        <mat-option *ngFor="let company of companies" [value]="company.id">
+                            <div>
+                                {{company.company}}
+                            </div>
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <!-- END COMPANY FORM -->
             </div>
         </div>
         <!-- BUTTONS FORM -->
@@ -71,4 +84,8 @@
             </div>
         </div>
     </form>
+    <mat-card *ngIf="isLoading == true" style="display: flex; justify-content: center; align-items: center">
+        <mat-progress-spinner color="primary" mode="indeterminate" [diameter]="25">
+        </mat-progress-spinner>
+    </mat-card>
 </div>

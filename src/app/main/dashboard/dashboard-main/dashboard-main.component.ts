@@ -276,7 +276,7 @@ export class ProjectDashboardComponent implements OnInit {
                 this.chartValue = response.values;
                 this.inOutValues = response.inLessOut;
                 this.chartIncomeOutcome();
-                this.loadedChart = true
+                this.loadedChart = true;
             });
     }
 
