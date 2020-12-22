@@ -6,7 +6,7 @@ export const environment = {
     production: false,
     hmr: false,
     apiEndpoint: 'http://127.0.0.1:8000/api/',
-    tokenAuthStorage: 'ricardohs.ui.site.dev'
+    tokenAuthStorage: 'ricardohs.ui.site'
 };
 
 /*
